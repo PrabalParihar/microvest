@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
     "@web3auth/base": "^9.4.0",
     "@web3auth/ethereum-provider": "^9.4.0",
     "@web3auth/single-factor-auth": "^9.2.0",
+    "class-variance-authority": "^0.7.0",
     "ethers": "^6.13.2",
     "firebase": "^10.13.0",
     "lucide-react": "^0.460.0",

@@ -1,4 +1,5 @@
 // AuthContext.tsx
+"use client"
 import React, { createContext, useState, useEffect } from "react";
 import {
   ADAPTER_EVENTS,
@@ -44,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [account, setAccount] = useState<string | null>(null);
 
   // Web3Auth and Firebase configurations
-  const clientId = "YOUR_WEB3AUTH_CLIENT_ID"; // Replace with your Web3Auth Client ID
+  const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // Replace with your Web3Auth Client ID
   const verifier = "w3a-firebase-demo";
 
   const chainConfig = {
@@ -60,12 +61,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Firebase configuration
   const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
-    authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-    projectId: "YOUR_FIREBASE_PROJECT_ID",
-    storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-    appId: "YOUR_FIREBASE_APP_ID",
+    apiKey: "AIzaSyB0nd9YsPLu-tpdCrsXn8wgsWVAiYEpQ_E",
+    authDomain: "web3auth-oauth-logins.firebaseapp.com",
+    projectId: "web3auth-oauth-logins",
+    storageBucket: "web3auth-oauth-logins.appspot.com",
+    messagingSenderId: "461819774167",
+    appId: "1:461819774167:web:e74addfb6cc88f3b5b9c92",
   };
 
   // Initialize Firebase
