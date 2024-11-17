@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+import "contracts/MicroVestBase.sol";
+
+contract MicroVestOracle is MicroVestBase {
+    // State variables
+    mapping(string => address) public priceFeeds;
+    mapping(string => uint256) public lastUpdated;
+
+    ISelfKisser public selfKisser;
+    
+    // Constants
+    uint256 public constant PRICE_DECIMALS = 18;
+    uint256 public constant MAX_PRICE_AGE = 1 hours;
+    
+    // Events
+    event PriceFeedAdded(string indexed symbol, address feed);
+    event PriceUpdated(string indexed symbol, uint256 price, uint256 timestamp);
+    
+    constructor(address _selfKisser) {
+        selfKisser = ISelfKisser(_selfKisser);
+    }
+    
+    function addPriceFeed(string memory symbol, address feed) external onlyAdmin {
+        require(feed != address(0), "Invalid feed");
+        priceFeeds[symbol] = feed;
+        // Whitelist contract for oracle access
+        selfKisser.selfKiss(feed);
+        emit PriceFeedAdded(symbol, feed);
+    }
+    
+    function getPrice(string memory symbol) public view returns (uint256 price, uint256 timestamp) {
+        address feed = priceFeeds[symbol];
+        require(feed != address(0), "Feed not found");
+        
+        IChronicle oracle = IChronicle(feed);
+        (price, timestamp) = oracle.readWithAge();
+        
+        require(block.timestamp - timestamp <= MAX_PRICE_AGE, "Stale price");
+    }
+    
+    function verifyPrice(
+        string memory symbol,
+        uint256 expectedPrice,
+        uint256 tolerance
+    ) external view returns (bool) {
+        (uint256 price,) = getPrice(symbol);
+        uint256 upperBound = expectedPrice + ((expectedPrice * tolerance) / 10000);
+        uint256 lowerBound = expectedPrice - ((expectedPrice * tolerance) / 10000);
+        
+        return price >= lowerBound && price <= upperBound;
+    }
+}
